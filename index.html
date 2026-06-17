@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BYL TRANSIT — Cargo & Logistics</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --navy: #0a1f44;
+            --navy2: #0d2d6b;
+            --red: #e8001c;
+            --white: #ffffff;
+            --offwhite: #f4f7fb;
+            --text: #1a2f4a;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--offwhite); color: var(--text); line-height: 1.6; }
+
+        /* Navigation Corrigée */
+        header {
+            background: var(--navy);
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .logo-link { background: transparent !important; border: none !important; padding: 0 !important; display: block; text-decoration: none; }
+        .logo-link img { height: 55px; width: auto; display: block; }
+
+        .nav-links { display: flex; align-items: center; flex-wrap: wrap; gap: 20px; }
+        .nav-links a { color: white; text-decoration: none; font-weight: 500; font-size: 15px; transition: 0.3s; display: flex; align-items: center; gap: 8px; }
+        .nav-links a:hover { color: var(--red); }
+
+        /* Bouton Spécial Shopping */
+        .btn-shopping { color: #f39c12 !important; font-weight: bold !important; border: 1px solid #f39c12; padding: 6px 12px; border-radius: 4px; }
+        .btn-shopping:hover { background: #f39c12; color: var(--navy) !important; }
+
+        /* Bouton Inscription */
+        .nav-links a.btn-reg { background: var(--red); padding: 8px 18px; border-radius: 4px; color: white !important; }
+        .nav-links a.btn-reg:hover { background: #b50016; }
+
+        /* Section Principale (Hero Banner) */
+        .hero {
+            background: linear-gradient(rgba(10, 31, 68, 0.85), rgba(13, 45, 107, 0.85)), url('https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80') no-repeat center/cover;
+            text-align: center;
+            padding: 80px 20px;
+            color: white;
+        }
+        .hero h2 { font-size: 36px; margin-bottom: 12px; font-weight: 700; }
+        .hero p { font-size: 18px; color: #cedcee; margin-bottom: 30px; }
+
+        /* Barre de suivi alignée */
+        .search-container { max-width: 600px; margin: 0 auto; }
+        .search-box { background: white; padding: 6px; border-radius: 50px; display: flex; box-shadow: 0 10px 25px rgba(0,0,0,0.2); width: 100%; }
+        .search-box input { flex: 1; border: none; padding: 12px 20px; font-size: 16px; border-radius: 50px; outline: none; color: #1a2f4a; min-width: 100px; }
+        .search-box button { background: var(--red); color: white; border: none; padding: 0 25px; font-size: 15px; font-weight: bold; border-radius: 50px; cursor: pointer; transition: 0.3s; display: flex; align-items: center; gap: 8px; }
+        .search-box button:hover { background: #b50016; }
+
+        /* Section Services ordonnée */
+        .section { padding: 60px 8%; text-align: center; max-width: 1200px; margin: 0 auto; }
+        .section h3 { font-size: 28px; color: var(--navy); margin-bottom: 40px; }
+        .section h3::after { content: ''; display: block; width: 60px; height: 3px; background: var(--red); margin: 10px auto 0 auto; }
+
+        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; margin-top: 20px; }
+        .service-card { background: white; padding: 35px 25px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); transition: 0.3s; text-align: center; }
+        .service-card:hover { transform: translateY(-5px); }
+        .service-card i { font-size: 40px; color: var(--red); margin-bottom: 20px; display: block; }
+        .service-card h4 { font-size: 20px; margin-bottom: 12px; color: var(--navy); }
+        .service-card p { color: #617d98; font-size: 15px; }
+
+        footer { background: var(--navy); color: #7a9ab8; text-align: center; padding: 25px; font-size: 14px; border-top: 3px solid var(--red); margin-top: 40px; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="/" class="logo-link">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo BYL Transit">
+        </a>
+
+        <div class="nav-links">
+            <a href="/"><i class="fa-solid fa-house"></i> Accueil</a>
+            <a href="/commande-personnalisee" class="btn-shopping"><i class="fa-solid fa-cart-shopping"></i> Service Shopping (Amazon, Apple...)</a>
+            <a href="/login"><i class="fa-solid fa-user"></i> Se connecter</a>
+            <a href="/register" class="btn-reg">Créer un compte</a>
+        </div>
+    </header>
+
+    <div class="hero">
+        <h2>Logistique & Transit International</h2>
+        <p>Transport sécurisé de vos marchandises, fret aérien et maritime.</p>
+
+        <div class="search-container">
+            <form action="/track" method="POST" class="search-box">
+                <input type="text" name="tracking_number" placeholder="Entrez votre numéro de suivi (ex: BYL-123456)" required>
+                <button type="submit"><i class="fa-solid fa-magnifying-glass"></i> Suivre</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="section">
+        <h3>Nos Services Logistiques</h3>
+        <div class="services-grid">
+            <div class="service-card">
+                <i class="fa-solid fa-plane-departure"></i>
+                <h4>Fret Aérien</h4>
+                <p>Livraison ultra-rapide de vos colis et cargaisons importantes partout dans le monde avec un suivi rigoureux.</p>
+            </div>
+            <div class="service-card">
+                <i class="fa-solid fa-ship"></i>
+                <h4>Fret Maritime</h4>
+                <p>Solutions de transport de conteneurs maritimes économiques et sécurisées pour vos marchandises volumineuses.</p>
+            </div>
+            <div class="service-card">
+                <i class="fa-solid fa-warehouse"></i>
+                <h4>Entreposage & Douane</h4>
+                <p>Gestion complète des formalités douanières et stockage hautement sécurisé de vos produits avant expédition.</p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 BYL TRANSIT — Cargo & Logistics. Tous droits réservés.</p>
+    </footer>
+<div id="cookie-banner" style="position: fixed; bottom: 20px; left: 20px; right: 20px; background: #0a1f44; color: white; padding: 20px; border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); display: none; z-index: 9999; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
+    <div style="max-width: 700px; font-size: 14px; line-height: 1.5;">
+        <i class="fa-solid fa-cookie-bite" style="color: #ff9900; font-size: 18px; margin-right: 8px;"></i>
+        <strong>Respect de votre vie privée :</strong> BYL Transit utilise des cookies fonctionnels essentiels pour sécuriser votre espace de suivi, mémoriser votre session et garantir la fluidité de vos simulations de devis. Acceptez-vous l'utilisation de ces cookies ?
+    </div>
+    <div style="display: flex; gap: 10px;">
+        <button onclick="cookieResponse(false)" style="background: transparent; color: #cbd5e1; border: 1px solid #cbd5e1; padding: 8px 16px; border-radius: 5px; cursor: pointer; font-weight: 500; font-size: 13px;">Refuser</button>
+        <button onclick="cookieResponse(true)" style="background: #e8001c; color: white; border: none; padding: 8px 20px; border-radius: 5px; cursor: pointer; font-weight: bold; font-size: 13px;">Accepter les cookies</button>
+    </div>
+</div>
+
+<script>
+    // Vérifie si l'utilisateur a déjà fait un choix
+    document.addEventListener("DOMContentLoaded", function() {
+        if (!localStorage.getItem("byl_cookies_accepted")) {
+            document.getElementById("cookie-banner").style.display = "flex";
+        }
+    });
+
+    function cookieResponse(accepted) {
+        if (accepted) {
+            localStorage.setItem("byl_cookies_accepted", "true");
+        } else {
+            localStorage.setItem("byl_cookies_accepted", "false");
+            alert("Note : En refusant les cookies, vous risquez d'être déconnecté automatiquement à chaque fermeture du site.");
+        }
+        document.getElementById("cookie-banner").style.display = "none";
+    }
+</script>
+<div class="form-group">
+    <label>Votre Prénom</label>
+    <input type="text" id="votre-input-prenom" placeholder="Entrez votre prénom" required>
+</div>
+
+<button type="button" class="btn-submit" onclick="gererInscription()">Créer mon compte</button>
+    <script>
+        function gererInscription() {
+            // 1. Récupérer la valeur que le client a tapée dans la case prénom
+            const prenomSaisi = document.getElementById('votre-input-prenom').value;
+
+            // 2. Vérifier que le champ n'est pas vide
+            if (prenomSaisi.trim() === "") {
+                alert("Veuillez entrer votre prénom avant de continuer.");
+                return; // Arrête la fonction si c'est vide
+            }
+
+            // 3. Sauvegarder le prénom dans la mémoire locale du navigateur (localStorage)
+            localStorage.setItem('byl_client_prenom', prenomSaisi);
+
+            // 4. Rediriger automatiquement le client vers son espace de gestion
+            window.location.href = 'Client.html';
+        }
+    </script>
+</body>
+</html>
+</body>
+</html>

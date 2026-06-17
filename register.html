@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Créer un compte — BYL Transit</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --navy: #0a1f44; --red: #e8001c; --offwhite: #f4f7fb; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--offwhite); display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 20px 0; }
+        .register-card { background: white; padding: 40px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); width: 100%; max-width: 400px; text-align: center; border-top: 5px solid var(--red); box-sizing: border-box; }
+        .register-card h2 { color: var(--navy); margin-top: 0; font-size: 26px; }
+        .register-card p.subtitle { color: #7a9ab8; font-size: 14px; margin-bottom: 25px; }
+        .input-group { position: relative; margin-bottom: 18px; text-align: left; }
+        .input-group i { position: absolute; left: 15px; top: 14px; color: #7a9ab8; }
+        .input-group input { width: 100%; padding: 12px 12px 12px 45px; border: 1px solid #cedcee; border-radius: 6px; box-sizing: border-box; font-size: 15px; outline: none; }
+        .input-group input:focus { border-color: var(--navy); }
+        .checkbox-group { text-align: left; margin-bottom: 20px; font-size: 14px; color: #1a2f4a; display: flex; align-items: flex-start; }
+        .checkbox-group input { margin-right: 10px; margin-top: 3px; }
+        .btn-submit { width: 100%; padding: 12px; background: var(--navy); color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 16px; font-weight: bold; }
+        .btn-submit:hover { background: #0d2d6b; }
+        .footer-text { margin-top: 25px; font-size: 14px; }
+        .footer-text a { color: var(--red); text-decoration: none; font-weight: bold; }
+        .flash-messages { background: #ffe3e6; color: #d9383a; padding: 10px; border-radius: 6px; margin-bottom: 20px; font-size: 14px; text-align: left; }
+    </style>
+</head>
+<body>
+
+    <div class="register-card">
+        <h2>Créer un compte</h2>
+        <p class="subtitle">Inscrivez-vous pour expédier et suivre vos cargaisons.</p>
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="flash-messages">
+                    {% for message in messages %}
+                        <i class="fa-solid fa-circle-exclamation"></i> {{ message }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <form method="POST" action="/register">
+    <div class="input-group">
+        <i class="fa-solid fa-user"></i>
+        <input type="text" name="username" placeholder="Nom d'utilisateur (ex: amadou07)" required>
+    </div>
+
+    <div class="input-group">
+        <i class="fa-solid fa-envelope"></i>
+        <input type="email" name="email" placeholder="Adresse Email" required>
+    </div>
+
+    <div class="input-group">
+        <i class="fa-solid fa-phone"></i>
+        <input type="tel" name="telephone" placeholder="Numéro de téléphone" required>
+    </div>
+
+    <div class="input-group">
+        <i class="fa-solid fa-lock"></i>
+        <input type="password" name="password" placeholder="Mot de passe" required>
+    </div>
+
+    <div class="checkbox-group">
+        <input type="checkbox" name="newsletter" id="newsletter" checked>
+        <label for="newsletter">J'accepte de m'abonner à la newsletter et de recevoir les notifications de suivi par SMS.</label>
+    </div>
+
+    <button type="submit" class="btn-submit">S'inscrire gratuitement</button>
+</form>

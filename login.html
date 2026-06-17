@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion — BYL TRANSIT</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --navy: #0a1f44;
+            --red: #e8001c;
+            --gray-bg: #f4f7fb;
+            --border: #cbd5e1;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--gray-bg); display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+
+        .login-card { background: white; padding: 40px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); width: 100%; max-width: 450px; }
+        .login-header { text-align: center; margin-bottom: 30px; }
+        .login-header h2 { color: var(--navy); font-size: 26px; }
+        .login-header h2 span { color: var(--red); }
+        .login-header p { color: #64748b; font-size: 14px; margin-top: 5px; }
+
+        .form-group { margin-bottom: 20px; position: relative; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 600; font-size: 14px; color: var(--navy); }
+        .form-group input { width: 100%; padding: 12px 40px 12px 12px; border: 1px solid var(--border); border-radius: 6px; font-size: 15px; outline: none; transition: 0.3s; }
+        .form-group input:focus { border-color: var(--navy); }
+
+        /* Options alignées (Afficher MDP & Oublié) */
+        .login-options { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; font-size: 13px; }
+        .show-password-label { display: flex; align-items: center; gap: 6px; cursor: pointer; color: #475569; user-select: none; }
+        .forgot-link { color: var(--red); text-decoration: none; font-weight: 500; }
+        .forgot-link:hover { text-decoration: underline; }
+
+        .btn-submit { width: 100%; padding: 14px; background: var(--navy); color: white; border: none; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        .btn-submit:hover { background: #112d5c; }
+
+        /* Liens de navigation bas de page */
+        .login-footer { margin-top: 25px; text-align: center; font-size: 14px; border-top: 1px solid #e2e8f0; padding-top: 20px; display: flex; flex-direction: column; gap: 10px; }
+        .login-footer a { color: var(--navy); text-decoration: none; font-weight: 500; }
+        .login-footer a:hover { color: var(--red); }
+
+        .flash-error { background: #fef2f2; color: #991b1b; padding: 12px; border-radius: 6px; margin-bottom: 20px; font-size: 14px; text-align: center; border: 1px solid #fca5a5; }
+    </style>
+</head>
+<body>
+
+    <div class="login-card">
+        <div class="login-header">
+            <h2>BYL <span>TRANSIT</span></h2>
+            <p>Connectez-vous pour gérer et suivre vos colis</p>
+        </div>
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="flash-error">
+                        <i class="fa-solid fa-circle-exclamation"></i> {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <form method="POST" action="/login">
+            <div class="form-group">
+                <label>Nom d'utilisateur</label>
+                <input type="text" name="username" placeholder="Votre identifiant" required>
+            </div>
+
+            <div class="form-group">
+                <label>Mot de passe</label>
+                <input type="password" name="password" id="password-field" placeholder="Votre mot de passe" required>
+            </div>
+
+            <div class="login-options" style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 25px;">
+    <label class="show-password-label" style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+        <input type="checkbox" id="toggle-password">
+        <span>Afficher le mot de passe</span>
+    </label>
+
+    <label style="display: flex; align-items: center; gap: 6px; cursor: pointer; color: #475569; font-size: 13px;">
+        <input type="checkbox" name="remember" checked>
+        <span>Rester connecté pendant 30 jours (Se souvenir de moi)</span>
+    </label>
+
+    <a href="#" class="forgot-link" style="font-size: 13px; margin-top: 5px;" onclick="alert('Veuillez contacter le support BYL Transit sur WhatsApp pour récupérer vos accès.')">Mot de passe oublié ?</a>
+</div>
+
+            <button type="submit" class="btn-submit">Se connecter</button>
+        </form>
+
+        <div class="login-footer">
+            <div>Nouveau sur la plateforme ? <a href="/register">Créer un compte</a></div>
+            <a href="/"><i class="fa-solid fa-arrow-left" style="font-size: 12px;"></i> Retour à la page d'accueil</a>
+        </div>
+    </div>
+
+    <script>
+        const passwordField = document.getElementById('password-field');
+        const togglePasswordCheckbox = document.getElementById('toggle-password');
+
+        togglePasswordCheckbox.addEventListener('change', function() {
+            if (this.checked) {
+                passwordField.type = 'text'; // Affiche le mot de passe en clair
+            } else {
+                passwordField.type = 'password'; // Masque le mot de passe
+            }
+        });
+    </script>
+
+</body>
+</html>
